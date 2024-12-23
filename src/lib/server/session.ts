@@ -13,12 +13,12 @@ export async function validateSessionToken(token: string): Promise<SessionValida
 	}
 
 	if (Date.now() >= row.expiresAt.getTime()) {
-		UserRepository.deleteSession(sessionId);
+		await UserRepository.deleteSession(sessionId);
 		return { expiresAt: null, user: null };
 	}
 	if (Date.now() >= row.expiresAt.getTime() - 1000 * 60 * 60 * 24 * 15) {
 		row.expiresAt = new Date(Date.now() + 1000 * 60 * 60 * 24 * 30);
-		UserRepository.updateSession(sessionId, row.expiresAt);
+		await UserRepository.updateSession(sessionId, row.expiresAt);
 	}
 	return { expiresAt: row.expiresAt, user: row.user };
 }
@@ -58,14 +58,15 @@ export function generateSessionToken(): string {
 	return token;
 }
 
-export function createSession(token: string, userId: string): Session {
+export async function createSession(token: string, userId: string): Promise<Session> {
+	console.log('createSession', token, userId);
 	const sessionId = encodeHexLowerCase(sha256(new TextEncoder().encode(token)));
 	const session: Session = {
 		id: sessionId,
 		userId,
 		expiresAt: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30)
 	};
-	UserRepository.createSession(session.id, userId, 1000 * 60 * 60 * 24 * 30);
+	await UserRepository.createSession(session.id, userId, 1000 * 60 * 60 * 24 * 30);
 	return session;
 }
 

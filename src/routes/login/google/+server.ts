@@ -7,7 +7,11 @@ export const GET = async (event: RequestEvent) => {
 	const codeVerifier = generateCodeVerifier();
 	const state = generateState();
 
-	const redirectUrl = google.createAuthorizationURL(state, codeVerifier, ['openid', 'profile']);
+	const redirectUrl = google.createAuthorizationURL(state, codeVerifier, [
+		'openid',
+		'profile',
+		'email'
+	]);
 
 	event.cookies.set('google_oauth_state', state, {
 		path: '/',

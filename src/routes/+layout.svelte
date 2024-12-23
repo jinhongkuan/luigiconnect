@@ -3,11 +3,13 @@
 	import * as Sidebar from '$lib/components/ui/sidebar/index.js';
 	import AppSidebar from '$lib/components/app-sidebar.svelte';
 
-	let { children } = $props();
+	let { children, data } = $props();
+
+	let user = data.user;
 </script>
 
 <Sidebar.Provider>
-	<AppSidebar />
+	<AppSidebar {user} />
 	<main>
 		<Sidebar.Trigger />
 		{@render children?.()}

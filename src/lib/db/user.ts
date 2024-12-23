@@ -58,7 +58,7 @@ export class UserRepository {
 		});
 	}
 
-	static createSession(userId: string, sessionId: string, duration: number) {
+	static createSession(sessionId: string, userId: string, duration: number) {
 		return this.prisma.session.create({
 			data: { userId, id: sessionId, expiresAt: new Date(Date.now() + duration) }
 		});
