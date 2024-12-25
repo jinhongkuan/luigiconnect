@@ -41,8 +41,10 @@
 		"vite": "^5.4.11"
 	},
 	"dependencies": {
+		"@pinecone-database/pinecone": "^4.0.0",
 		"@prisma/client": "^6.1.0",
 		"arctic": "^2.3.3",
+		"emblor": "^1.4.7",
 		"zod": "^3.24.1"
 	}
 }
